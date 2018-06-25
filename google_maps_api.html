@@ -14,32 +14,39 @@
         <script>
             function initMap(){
                 var mapCanvas = document.getElementById('mapCanvas');
+                var marker = "";
                 var geo = new google.maps.Geocoder();
+                var iconBase = 'https://maps.google.com/mapfiles/kml/shapes/';
 
                 var mapOption = {
                     zoom: 15,
-                    // center: geo.geocode({address:'silver spring, md'},function(response,status){
-                    //
-                    //          var city = {
-                    //         lat: response[0].geometry.location.lat(),
-                    //         lng: response[0].geometry.location.lng()
-                    //         }
-                    //
-                    //         return city;
-                    //         })
                     center:{
                         lat: 39.00877,
                         lng: -77.0528641
                     }
                 };
                 var map = new google.maps.Map(mapCanvas,mapOption);
-                    geo.geocode({address:'silver spring, md'},function(response,status){
+                    geo.geocode({address:'8229 Georgia Ave, Silver Spring, MD 20910'},function(response,status){
 
-                            if (status === 'OK') {
+                        marker = new google.maps.Marker({position:response[0].geometry.location, animation: google.maps.Animation.DROP, icon: iconBase + 'parking_lot_maps.png',  map});
+
+                        if (status === 'OK') {
                                 map.setCenter(response[0].geometry.location);
                             }
-                            var marker = new google.maps.Marker({position:response[0].geometry.location,map});
+
+                        var infowindow = new google.maps.InfoWindow({
+                            content: "<h1>This is my favorite place to eat!</h1>"
+
+                        });
+
+                        marker.addListener("click", function () {
+                                infowindow.open(map, marker);
+                            })
                     });
+
+
+
+
 
 
             }
