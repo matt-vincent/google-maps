@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title> Google API</title>
+        <style>
+            #mapCanvas{
+                height: 500px;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="mapCanvas"></div>
+        <script>
+            function initMap(){
+                var mapCanvas = document.getElementById('mapCanvas');
+                var geo = new google.maps.Geocoder();
+
+                var mapOption = {
+                    zoom: 15,
+                    // center: geo.geocode({address:'silver spring, md'},function(response,status){
+                    //
+                    //          var city = {
+                    //         lat: response[0].geometry.location.lat(),
+                    //         lng: response[0].geometry.location.lng()
+                    //         }
+                    //
+                    //         return city;
+                    //         })
+                    center:{
+                        lat: 39.00877,
+                        lng: -77.0528641
+                    }
+                };
+                var map = new google.maps.Map(mapCanvas,mapOption);
+                    geo.geocode({address:'silver spring, md'},function(response,status){
+
+                            if (status === 'OK') {
+                                map.setCenter(response[0].geometry.location);
+                            }
+                            var marker = new google.maps.Marker({position:response[0].geometry.location,map});
+                    });
+
+            }
+        </script>
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCxIPbNd4ljI6NdSyP5ugk4XoKDzw2VEZM&callback=initMap" async defer></script>
+    </body>
+
+</html>
